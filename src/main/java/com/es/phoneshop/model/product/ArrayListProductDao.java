@@ -18,10 +18,9 @@ public class ArrayListProductDao implements ProductDao {
 
     @Override
     public Product getProduct(Long id) {
-        for (int i = 0; i < productList.size();i++){
-            if(productList.get(i).getId()==id)
-                return productList.get(i);
-        }
+        int i = findProductById(id);
+        if(i != -1)
+            return productList.get(i);
         return null;
     }
 
@@ -43,7 +42,24 @@ public class ArrayListProductDao implements ProductDao {
         productList.remove(toIntExact(id-1));
     }
 
+    @Override
+    public void changeById(Long id, Product product){
+        product.setId(id);
+        int i = findProductById(id);
+        if (i != -1 )
+            productList.set(i, product);
+
+    }
+
     private Long incId(){
         return maxId++;
+    }
+
+    private int findProductById(Long id){
+        for (int i = 0; i < productList.size();i++){
+            if(productList.get(i).getId()==id)
+                return i;
+        }
+        return -1;
     }
 }

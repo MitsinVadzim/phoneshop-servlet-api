@@ -59,4 +59,15 @@ public class ArrayListProductDaoTest
         productDao.save(product);
         assertTrue(productDao.getProduct(0L) == product);
     }
+
+    @Test
+    public void testChangeByIdIsTrue(){
+        Currency usd = Currency.getInstance("USD");
+        Product product = new Product("sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
+        productDao.save(product);
+        Product product2 = new Product("tst", "Test", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
+        productDao.changeById(0L,product2);
+        assertTrue(productDao.getProduct(0L)==product2);
+
+    }
 }
