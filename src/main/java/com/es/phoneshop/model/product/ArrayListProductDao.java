@@ -13,7 +13,7 @@ public class ArrayListProductDao implements ProductDao {
 
     public ArrayListProductDao() {
         productList = new ArrayList<>();
-        maxId = 0L;
+        maxId = -1L;
     }
 
     @Override
@@ -31,28 +31,46 @@ public class ArrayListProductDao implements ProductDao {
 
     @Override
     public void save(Product product) {
-        if(product == null) throw new NullPointerException("product must not be null");
-        product.setId(incId());
-        productList.add(product);
+        if(product == null) throw new IllegalArgumentException("product must not be null");
+        if(product.getId().equals(-1L)){
+            product.setId(incMaxId());
+            productList.add(product);
+        }else{
+            int i = findProductById(product.getId());
+            if(i!=-1){
+                productList.set(i,product);
+            }else {
+                productList.add(product);
+                setMaxId(product.getId());
+            }
+
+        }
     }
 
     @Override
     public void delete(Long id) {
-
-        productList.remove(toIntExact(id-1));
-    }
-
-    @Override
-    public void changeById(Long id, Product product){
-        product.setId(id);
         int i = findProductById(id);
-        if (i != -1 )
-            productList.set(i, product);
-
+        if(i != -1) {
+            productList.remove(i);
+            decMaxId();
+        }
     }
 
-    private Long incId(){
-        return maxId++;
+
+    private Long incMaxId(){
+        return ++maxId;
+    }
+
+    private void setMaxId(Long id){
+        maxId = id;
+    }
+
+    private void decMaxId(){
+        --maxId;
+    }
+
+    private Long getMaxId(){
+        return maxId;
     }
 
     private int findProductById(Long id){
