@@ -7,13 +7,25 @@ import static java.lang.Math.toIntExact;
 
 public class ArrayListProductDao implements ProductDao {
 
-    private ArrayList<Product> productList;
+    //private static volatile ArrayListProductDao instance;
 
-    private Long maxId;
+    private static ArrayListProductDao instance = null;
 
-    public ArrayListProductDao() {
-        productList = new ArrayList<>();
-        maxId = -1L;
+    private List<Product> productList = new ArrayList<>();
+
+    private Long maxId = -1L;
+
+    private ArrayListProductDao() {
+    }
+
+//    private static class ArrayListProductDaoHolder{
+//        private final static ArrayListProductDao instance = new ArrayListProductDao();
+//    }
+
+    public synchronized static ArrayListProductDao getInstance(){
+        if(instance == null)
+            instance = new ArrayListProductDao();
+        return instance;
     }
 
     @Override
@@ -56,6 +68,10 @@ public class ArrayListProductDao implements ProductDao {
         }
     }
 
+    @Override
+    public void deleteAll(){
+        productList.clear();
+    }
 
     private Long incMaxId(){
         return ++maxId;
