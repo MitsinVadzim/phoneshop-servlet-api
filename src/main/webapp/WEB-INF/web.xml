@@ -24,12 +24,12 @@
         <servlet-name>product</servlet-name>
         <url-pattern>/products/*</url-pattern>
     </servlet-mapping>
-    
+
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/pages/ErrorPage.jsp</location>
     </error-page>
-    
+
     <listener>
         <listener-class>com.es.phoneshop.listener.ProductDemodataServletContextListener</listener-class>
     </listener>

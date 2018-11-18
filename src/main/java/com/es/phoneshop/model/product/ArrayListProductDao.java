@@ -2,7 +2,6 @@ package com.es.phoneshop.model.product;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
 
@@ -73,7 +72,7 @@ public class ArrayListProductDao implements ProductDao {
             result.add(priorityList.get(i).getProduct());
             ++i;
         }
-        switch (sort){
+        switch (sort) {
             case "ascDescription":
                 result.sort(Comparator.comparing(Product::getDescription));
                 break;
