@@ -20,18 +20,33 @@
       <p>
         Welcome to Expert-Soft training!
       </p>
+      <form method="get" name="products">
+          <input type="text" name="search" value="<%= request.getParameter("search") %>">
+          <input type="submit" value="Search">
+      </form>
       <table>
         <thead>
           <tr>
             <td>Image</td>
-            <td>Description</td>
-            <td class="price">Price</td>
+            <td>
+                Description
+                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascDescription"%>">asc</a>
+                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descDescription"%>">desc</a>
+
+            </td>
+            <td class="price">
+                Price
+                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascPrice"%>">asc</a>
+                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descPrice"%>">desc</a>
+            </td>
           </tr>
         </thead>
         <c:forEach var="product" items="${products}">
           <tr>
             <td>
-              <img class="product-tile" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
+              <a href="http://localhost:8080/phoneshop-servlet-api/products/${product.id}">
+                  <img class="product-tile" src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
+              </a>
             </td>
             <td>${product.description}</td>
             <td class="price">
