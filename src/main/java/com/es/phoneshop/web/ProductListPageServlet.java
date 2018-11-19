@@ -33,8 +33,7 @@ public class ProductListPageServlet extends HttpServlet {
     }
 
     private ArrayListProductDao getSampleProducts() {
-        ArrayListProductDao result = ArrayListProductDao.getInstance();
 
-        return result;
+        return ArrayListProductDao.getInstance();
     }
 }
