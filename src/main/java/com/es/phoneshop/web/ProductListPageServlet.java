@@ -1,6 +1,8 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.logic.ProductDaoLogic;
 import com.es.phoneshop.model.product.ArrayListProductDao;
+import com.es.phoneshop.model.product.ProductDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +16,6 @@ public class ProductListPageServlet extends HttpServlet {
         this.process(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.process(request, response);
-    }
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("search");
@@ -28,12 +26,9 @@ public class ProductListPageServlet extends HttpServlet {
         if (sort == null) {
             sort = "ascDescription";
         }
-        request.setAttribute("products", getSampleProducts().findProducts(search, sort));
+
+        request.setAttribute("products", ProductDaoLogic.getInstance().findProducts(search,sort));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
-    private ArrayListProductDao getSampleProducts() {
-
-        return ArrayListProductDao.getInstance();
-    }
 }

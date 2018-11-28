@@ -21,23 +21,36 @@
         Welcome to Expert-Soft training!
     </p>
     <form method="get" name="products">
-        <input type="text" name="search" value="<%= request.getParameter("search") %>">
+        <input type="text" name="search" value="${param.search}">
         <input type="submit" value="Search">
     </form>
     <table>
         <thead>
         <tr>
+            <c:url var="nextUrl" value="">
+                <c:forEach items="${param}" var="entry">
+                    <c:if test="${entry.key != 'sort'}">
+                        <c:param name="${entry.key}" value="${entry.value}" />
+                    </c:if>
+                </c:forEach>
+            </c:url>
+
             <td>Image</td>
             <td>
                 Description
-                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascDescription"%>">asc</a>
-                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descDescription"%>">desc</a>
-
+                <a href="vk.com"></a>
+                <%--<a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascDescription"%>">asc</a>--%>
+                <a href="${nextUrl}&sort=ascDescription">asc</a>
+                <%--<a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descDescription"%>">desc</a>--%>
+                <a href="${nextUrl}&sort=descDescription">desc</a>
             </td>
             <td class="price">
                 Price
-                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascPrice"%>">asc</a>
-                <a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descPrice"%>">desc</a>
+                <a href="${nextUrl}&sort=ascPrice">asc</a>
+                <%--<a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"ascPrice"%>">asc</a>--%>
+                <a href="${nextUrl}&sort=descPrice">desc</a>
+                <%--<a href="<%="http://localhost:8080/phoneshop-servlet-api/products"+"?"+"search="+request.getParameter("search")+"&sort="+"descPrice"%>">desc</a>--%>
+
             </td>
         </tr>
         </thead>

@@ -29,33 +29,28 @@
     <p>
         Welcome to Expert-Soft training!
     </p>
-    <c:if test="${null != product}">
-        <table>
-            <thead>
-            <tr>
-                <td>Image</td>
-                <td>
-                    Description
-                </td>
-                <td class="price">Price</td>
-            </tr>
-            </thead>
-            <tr>
-                <td>
-                    <img class="product-tile"
-                         src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
-                </td>
-                <td>${product.description}</td>
-                <td class="price">
-                    <fmt:formatNumber value="${product.price}" type="currency"
-                                      currencySymbol="${product.currency.symbol}"/>
-                </td>
-            </tr>
-        </table>
-    </c:if>
-    <c:if test="${null==product}">
-
-    </c:if>
+    <table>
+        <thead>
+        <tr>
+            <td>Image</td>
+            <td>
+                Description
+            </td>
+            <td class="price">Price</td>
+        </tr>
+        </thead>
+        <tr>
+            <td>
+                <img class="product-tile"
+                     src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
+            </td>
+            <td>${product.description}</td>
+            <td class="price">
+                <fmt:formatNumber value="${product.price}" type="currency"
+                                  currencySymbol="${product.currency.symbol}"/>
+            </td>
+        </tr>
+    </table>
 </main>
 </body>
 </html>

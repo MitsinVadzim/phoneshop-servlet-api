@@ -15,14 +15,10 @@ public class ProductDetailsPageServlet extends HttpServlet {
         this.process(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.process(request, response);
-    }
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long id = getIdFromURI(request);
-        Product myProduct = getSampleProduct().getProduct(id);
+        Product myProduct = ArrayListProductDao.getInstance().getProduct(id);
         if (myProduct == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } else {
@@ -32,10 +28,6 @@ public class ProductDetailsPageServlet extends HttpServlet {
         }
     }
 
-    private ArrayListProductDao getSampleProduct() {
-
-        return ArrayListProductDao.getInstance();
-    }
 
     private Long getIdFromURI(HttpServletRequest request) {
         String[] massStr = request.getRequestURI().split("/");

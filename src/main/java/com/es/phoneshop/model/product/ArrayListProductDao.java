@@ -1,16 +1,17 @@
 package com.es.phoneshop.model.product;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
 
 
-    private static ArrayListProductDao instance = null;
+    private static ArrayListProductDao instance;
 
     private List<Product> productList = new ArrayList<>();
 
-    private Long maxId = -1L;
+    private Long identifier = -1L;
 
     private ArrayListProductDao() {
 
@@ -18,92 +19,52 @@ public class ArrayListProductDao implements ProductDao {
 
 
     public synchronized static ArrayListProductDao getInstance() {
-        if (instance == null)
-            instance = new ArrayListProductDao();
+        if (instance == null) {
+            synchronized (ArrayListProductDao.class) {
+                if (instance == null) {
+                    instance = new ArrayListProductDao();
+                }
+            }
+        }
         return instance;
     }
 
     @Override
-    public Product getProduct(Long id) {
-        int i = findProductById(id);
-        if (i != -1)
-            return productList.get(i);
-        return null;
+    public synchronized Product getProduct(Long id) {
+        int i = findPositionById(id);
+        if(i == -1)
+            throw new RuntimeException("Product with " + id + " was not founded.");
+        return productList.get(findPositionById(id));
     }
 
 
     @Override
-    public List<Product> findProducts(String search, String sort) {
+    public List<Product> findProducts() {
 
-        if (search.equals("")) {
-            return productList;
-        }
-        List<Priority> priorityList = new ArrayList<>();
-        for (Product aProductList : productList) {
-            priorityList.add(new Priority(aProductList));
-        }
+        return productList.stream().filter(x -> x.getPrice() != null)
+                .filter(x -> x.getStock() > 0).collect(Collectors.toList());
 
-        for (String retval : search.split(" ")) {
-            for (Priority aPriorityList : priorityList) {
-                if (aPriorityList.getProduct().getDescription().contains(retval))
-                    aPriorityList.incPriority();
-            }
-        }
-
-        priorityList.sort(Comparator.comparing(Priority::getPriority));
-        Collections.reverse(priorityList);
-        List<Product> result = new ArrayList<>();
-        int i = 0;
-        while (i < priorityList.size() && priorityList.get(i).getPriority() != 0) {
-            result.add(priorityList.get(i).getProduct());
-            ++i;
-        }
-        switch (sort) {
-            case "ascDescription":
-                result.sort(Comparator.comparing(Product::getDescription));
-                break;
-            case "descDescription":
-                result.sort(Comparator.comparing(Product::getDescription));
-                Collections.reverse(result);
-                break;
-            case "ascPrice":
-                result.sort(Comparator.comparing(Product::getPrice));
-                break;
-            case "descPrice":
-                result.sort(Comparator.comparing(Product::getPrice));
-                Collections.reverse(result);
-                break;
-        }
-
-
-        return result;
     }
 
     @Override
     public synchronized void save(Product product) {
         if (product == null) throw new IllegalArgumentException("product must not be null");
-        if (product.getId().equals(-1L)) {
+        if (product.getId() == null) {
             product.setId(incMaxId());
             productList.add(product);
         } else {
-            int i = findProductById(product.getId());
-            if (i != -1) {
-                productList.set(i, product);
-            } else {
+            int i = findPositionById(product.getId());
+            if(i == -1) {
                 productList.add(product);
-                setMaxId(product.getId());
             }
-
+            else
+                productList.set(i, product);
         }
     }
 
     @Override
     public synchronized void delete(Long id) {
-        int i = findProductById(id);
-        if (i != -1) {
-            productList.remove(i);
-            decMaxId();
-        }
+        productList.removeIf(x -> x.getId().equals(id));
     }
 
     @Override
@@ -112,22 +73,19 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     private synchronized Long incMaxId() {
-        return ++maxId;
+        return ++identifier;
     }
 
     private synchronized void setMaxId(Long id) {
-        maxId = id;
+        identifier = id;
     }
 
-    private synchronized void decMaxId() {
-        --maxId;
-    }
 
     private Long getMaxId() {
-        return maxId;
+        return identifier;
     }
 
-    private int findProductById(Long id) {
+    private int findPositionById(Long id) {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getId().equals(id))
                 return i;
