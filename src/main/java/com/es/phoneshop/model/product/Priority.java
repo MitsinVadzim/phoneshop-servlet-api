@@ -4,8 +4,8 @@ public class Priority {
     private Product product;
     private int priority;
 
-    public Priority(Product product) {
-        this.product = product;
+    public Priority(final Product fproduct) {
+        this.product = fproduct;
         priority = 0;
     }
 

@@ -26,7 +26,7 @@
     </servlet-mapping>
 
     <error-page>
-        <error-code>404</error-code>
+        <exception-type>java.lang.RuntimeException</exception-type>
         <location>/WEB-INF/pages/ErrorPage.jsp</location>
     </error-page>
 

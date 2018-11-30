@@ -1,13 +1,13 @@
 package com.es.phoneshop.model.product;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ArrayListProductDaoTest {
     private ProductDao productDao;
@@ -27,7 +27,7 @@ public class ArrayListProductDaoTest {
         productDao.deleteAll();
         Currency usd = Currency.getInstance("USD");
         productDao.save(new Product(0L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));
-        assertEquals(1, productDao.findProducts().size());
+        Assert.assertEquals(1, productDao.findProducts().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -43,15 +43,15 @@ public class ArrayListProductDaoTest {
         productDao.save(new Product(1L, "sgs2", "Samsung Galaxy S II", new BigDecimal(200), usd, 0, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S%20II.jpg"));
         productDao.save(new Product(2L, "sgs3", "Samsung Galaxy S III", new BigDecimal(300), usd, 5, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S%20III.jpg"));
         productDao.delete(1L);
-        assertTrue(productDao.findProducts().size() == 2);
+        assertEquals(2, productDao.findProducts().size());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testGetNonexistentId() {
         productDao.deleteAll();
         Currency usd = Currency.getInstance("USD");
         productDao.save(new Product(0L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));
-        assertTrue(productDao.getProduct(5L) == null);
+        productDao.getProduct(5L);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ArrayListProductDaoTest {
         Product product = new Product(0L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
 
         productDao.save(product);
-        assertTrue(productDao.getProduct(0L) == product);
+        assertSame(productDao.getProduct(0L), product);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class ArrayListProductDaoTest {
         productDao.save(product);
         Product product2 = new Product(0L, "tst", "Test", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg");
         productDao.save(product2);
-        assertTrue(productDao.getProduct(0L) == product2);
+        assertSame(productDao.getProduct(0L), product2);
 
     }
 

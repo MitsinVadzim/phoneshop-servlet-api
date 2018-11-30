@@ -1,6 +1,6 @@
 package com.es.phoneshop.web;
 
-import com.es.phoneshop.model.product.ArrayListProductDao;
+import com.es.phoneshop.model.product.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class ProductListPageServletTest {
     @Mock
     private RequestDispatcher requestDispatcher;
     @Mock
-    private ArrayListProductDao arrayListProductDao;
+    private Product product;
 
     private ProductListPageServlet servlet = new ProductListPageServlet();
 
@@ -37,6 +37,7 @@ public class ProductListPageServletTest {
 
     @Test
     public void testDoGet() throws ServletException, IOException {
+        servlet.init();
         servlet.doGet(request, response);
 
         verify(requestDispatcher).forward(request, response);
@@ -44,8 +45,9 @@ public class ProductListPageServletTest {
 
 //    @Test
 //    public void testSetAttribute() throws ServletException, IOException{
+//        servlet.init();
 //        servlet.doGet(request,response);
 //
-//        verify(request).setAttribute("products", arrayListProductDao.findProducts());
+//        verify(request).setAttribute("products", product);
 //    }
 }

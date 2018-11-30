@@ -5,10 +5,12 @@ import com.es.phoneshop.model.product.Priority;
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.model.product.ProductDao;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductDaoLogic {
+public final class ProductDaoLogic {
 
     private static ProductDaoLogic instance;
 
@@ -30,34 +32,41 @@ public class ProductDaoLogic {
         return instance;
     }
 
-    private List<Product> searchProduct(List<Product> list,String search){
+    private List<Product> searchProduct(final List<Product> list, final String search) {
         List<Priority> priorityList = new ArrayList<>();
-        for (Product aProductList : productList.findProducts()) {
+        for (Product aProductList : list) {
             priorityList.add(new Priority(aProductList));
         }
 
         for (String retval : search.split("\\s")) {
             for (Priority aPriorityList : priorityList) {
-                if (aPriorityList.getProduct().getDescription().contains(retval))
+                if (aPriorityList.getProduct().getDescription().contains(retval)) {
                     aPriorityList.incPriority();
+                }
             }
 
         }
 
-        priorityList = priorityList.stream().filter(x->x.getPriority()>0).sorted(Comparator.comparing(Priority::getPriority).reversed()).collect(Collectors.toList());
+        priorityList = priorityList.stream()
+                .filter(x -> x
+                        .getPriority() > 0)
+                .sorted(Comparator
+                        .comparing(Priority::getPriority)
+                        .reversed())
+                .collect(Collectors.toList());
         List<Product> result = new ArrayList<>();
-        for (Priority product: priorityList) {
+        for (Priority product : priorityList) {
             result.add(product.getProduct());
         }
         return result;
     }
 
-    public List<Product> findProducts(String search, String sort) {
+    public List<Product> findProducts(final String search, final String sort) {
 
         if (search.equals("")) {
             return productList.findProducts();
         }
-        List<Product> result = searchProduct(productList.findProducts(),search);
+        List<Product> result = searchProduct(productList.findProducts(), search);
 
         switch (sort) {
             case "ascDescription":

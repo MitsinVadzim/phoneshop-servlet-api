@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArrayListProductDao implements ProductDao {
+public final class ArrayListProductDao implements ProductDao {
 
 
     private static ArrayListProductDao instance;
@@ -30,10 +30,11 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized Product getProduct(Long id) {
+    public synchronized Product getProduct(final Long id) {
         int i = findPositionById(id);
-        if(i == -1)
+        if (i == -1) {
             throw new RuntimeException("Product with " + id + " was not founded.");
+        }
         return productList.get(findPositionById(id));
     }
 
@@ -47,23 +48,25 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized void save(Product product) {
-        if (product == null) throw new IllegalArgumentException("product must not be null");
+    public synchronized void save(final Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("product must not be null");
+        }
         if (product.getId() == null) {
             product.setId(incMaxId());
             productList.add(product);
         } else {
             int i = findPositionById(product.getId());
-            if(i == -1) {
+            if (i == -1) {
                 productList.add(product);
-            }
-            else
+            } else {
                 productList.set(i, product);
+            }
         }
     }
 
     @Override
-    public synchronized void delete(Long id) {
+    public synchronized void delete(final Long id) {
         productList.removeIf(x -> x.getId().equals(id));
     }
 
@@ -76,7 +79,7 @@ public class ArrayListProductDao implements ProductDao {
         return ++identifier;
     }
 
-    private synchronized void setMaxId(Long id) {
+    private synchronized void setMaxId(final Long id) {
         identifier = id;
     }
 
@@ -85,10 +88,11 @@ public class ArrayListProductDao implements ProductDao {
         return identifier;
     }
 
-    private int findPositionById(Long id) {
+    private int findPositionById(final Long id) {
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).getId().equals(id))
+            if (productList.get(i).getId().equals(id)) {
                 return i;
+            }
         }
         return -1;
     }
