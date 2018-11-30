@@ -15,12 +15,14 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        // TODO what's the point of calling super.init() ?
         super.init();
         arrayListProductDao = ArrayListProductDao.getInstance();
     }
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+        // TODO what will happen if id is not a valid long value?
         Long id = getIdFromURI(request);
         Product myProduct = arrayListProductDao.getProduct(id);
         request.setAttribute("product", myProduct);

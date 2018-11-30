@@ -9,8 +9,10 @@ public final class ArrayListProductDao implements ProductDao {
 
     private static ArrayListProductDao instance;
 
+    // TODO make this field final
     private List<Product> productList = new ArrayList<>();
 
+    // TODO ids should be started with 1
     private Long identifier = -1L;
 
     private ArrayListProductDao() {
@@ -30,9 +32,12 @@ public final class ArrayListProductDao implements ProductDao {
     }
 
     @Override
+    // TODO use Stream API, it's not complicated for such a simple operation
+    // Hint: filter, findFirst, orElseThrow
     public synchronized Product getProduct(final Long id) {
         int i = findPositionById(id);
         if (i == -1) {
+            // TODO create custom unchecked ProductNotFoundException
             throw new RuntimeException("Product with " + id + " was not founded.");
         }
         return productList.get(findPositionById(id));
@@ -40,6 +45,7 @@ public final class ArrayListProductDao implements ProductDao {
 
 
     @Override
+    // TODO use Stream API code convention
     public List<Product> findProducts() {
 
         return productList.stream().filter(x -> x.getPrice() != null)
@@ -56,6 +62,9 @@ public final class ArrayListProductDao implements ProductDao {
             product.setId(incMaxId());
             productList.add(product);
         } else {
+            // TODO throw exception if the product is not present. Do it something like this:
+            // Product target = getProduct(product.getId());
+            // update(target, product); // update would be a private method that just set product properties
             int i = findPositionById(product.getId());
             if (i == -1) {
                 productList.add(product);
@@ -75,15 +84,18 @@ public final class ArrayListProductDao implements ProductDao {
         productList.clear();
     }
 
+    // TODO remove this method
     private synchronized Long incMaxId() {
         return ++identifier;
     }
 
+    // TODO remove this method
     private synchronized void setMaxId(final Long id) {
         identifier = id;
     }
 
 
+    // TODO remove this method
     private Long getMaxId() {
         return identifier;
     }
