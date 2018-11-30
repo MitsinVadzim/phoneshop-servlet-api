@@ -1,3 +1,4 @@
+// TODO move to com.es.phoneshop.service
 package com.es.phoneshop.logic;
 
 import com.es.phoneshop.model.product.ArrayListProductDao;
@@ -10,10 +11,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO rename to ProductService
 public final class ProductDaoLogic {
 
     private static ProductDaoLogic instance;
 
+    // TODO final
     private ProductDao productList = ArrayListProductDao.getInstance();
 
 
@@ -33,11 +36,13 @@ public final class ProductDaoLogic {
     }
 
     private List<Product> searchProduct(final List<Product> list, final String search) {
+        // TODO use Stream API
         List<Priority> priorityList = new ArrayList<>();
         for (Product aProductList : list) {
             priorityList.add(new Priority(aProductList));
         }
 
+        // TODO use Map<Product, Integer> instead of Priority
         for (String retval : search.split("\\s")) {
             for (Priority aPriorityList : priorityList) {
                 if (aPriorityList.getProduct().getDescription().contains(retval)) {
@@ -52,7 +57,8 @@ public final class ProductDaoLogic {
                         .getPriority() > 0)
                 .sorted(Comparator
                         .comparing(Priority::getPriority)
-                        .reversed())
+                        .reversed()/*TODO thenComparing*/)
+                // TODO .map(Priority::getProduct)
                 .collect(Collectors.toList());
         List<Product> result = new ArrayList<>();
         for (Priority product : priorityList) {
@@ -70,6 +76,7 @@ public final class ProductDaoLogic {
 
         switch (sort) {
             case "ascDescription":
+                // TODO use thenComparing in order to avoid extra traversing and sorting
                 result.sort(Comparator.comparing(Product::getDescription));
                 break;
             case "descDescription":

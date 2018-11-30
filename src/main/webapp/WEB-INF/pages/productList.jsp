@@ -51,6 +51,7 @@
         <c:forEach var="product" items="${products}">
             <tr>
                 <td>
+                    <%-- TODO use <c:url> --%>
                     <a href="http://localhost:8080/phoneshop-servlet-api/products/${product.id}">
                         <img class="product-tile"
                              src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">

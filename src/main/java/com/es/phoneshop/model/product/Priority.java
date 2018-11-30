@@ -1,5 +1,6 @@
 package com.es.phoneshop.model.product;
 
+// TODO remove this class, use Map<Product, Integer> instead
 public class Priority {
     private Product product;
     private int priority;

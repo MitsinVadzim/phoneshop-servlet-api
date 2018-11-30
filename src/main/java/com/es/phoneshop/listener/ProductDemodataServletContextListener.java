@@ -17,8 +17,10 @@ public class ProductDemodataServletContextListener implements ServletContextList
 
     @Override
     public void contextInitialized(final ServletContextEvent servletContextEvent) {
+        // TODO dao must be populated depending on context parameter
         ArrayListProductDao productDao = ArrayListProductDao.getInstance();
         Currency usd = Currency.getInstance("USD");
+        // TODO ArrayListProductDao's index is not updated if you pass product with non-null id
         productDao.save(new Product(0L, "sgs", "Samsung Galaxy S", new BigDecimal(100), usd, 100, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S.jpg"));
         productDao.save(new Product(1L, "sgs2", "Samsung Galaxy S II", new BigDecimal(200), usd, 0, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S%20II.jpg"));
         productDao.save(new Product(2L, "sgs3", "Samsung Galaxy S III", new BigDecimal(300), usd, 5, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S%20III.jpg"));
