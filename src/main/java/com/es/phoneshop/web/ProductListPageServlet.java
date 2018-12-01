@@ -15,6 +15,7 @@ public class ProductListPageServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        // TODO what's the point of calling super.init() ?
         super.init();
         productDaoLogic = ProductDaoLogic.getInstance();
     }
