@@ -12,7 +12,7 @@ import java.util.Currency;
 import java.util.List;
 
 public class ProductDaoLogicTest {
-    private ProductDaoLogic productDaoLogic;
+    private ProductService productDaoLogic;
     private ArrayListProductDao arrayListProductDao;
     private Currency usd;
 
@@ -25,7 +25,7 @@ public class ProductDaoLogicTest {
         arrayListProductDao.save(new Product(1L, "iphone6", "Apple iPhone 6", new BigDecimal(1000), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Apple/Apple%20iPhone%206.jpg"));
         arrayListProductDao.save(new Product(2L, "sgs3", "Samsung Galaxy S III", new BigDecimal(300), usd, 5, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Samsung/Samsung%20Galaxy%20S%20III.jpg"));
 
-        productDaoLogic = ProductDaoLogic.getInstance();
+        productDaoLogic = ProductService.getInstance();
     }
 
     @Test

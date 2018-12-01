@@ -1,6 +1,6 @@
 package com.es.phoneshop.web;
 
-import com.es.phoneshop.logic.ProductDaoLogic;
+import com.es.phoneshop.logic.ProductService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,14 +10,13 @@ import java.io.IOException;
 
 public class ProductListPageServlet extends HttpServlet {
 
-    private ProductDaoLogic productDaoLogic;
+    private ProductService productService;
 
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         // TODO what's the point of calling super.init() ?
-        super.init();
-        productDaoLogic = ProductDaoLogic.getInstance();
+        productService = ProductService.getInstance();
     }
 
     @Override
@@ -31,7 +30,7 @@ public class ProductListPageServlet extends HttpServlet {
             sort = "ascDescription";
         }
 
-        request.setAttribute("products", productDaoLogic.findProducts(search, sort));
+        request.setAttribute("products", productService.findProducts(search, sort));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
