@@ -43,6 +43,8 @@
             <td>Stock</td>
         </tr>
         </thead>
+        <%-- TODO use JSTL to display cart. It's a bad idea to override toString() for that purpose --%>
+        <%-- TODO requestScope? --%>
         ${requestScope.cart}
         <tr>
             <td>
@@ -59,7 +61,9 @@
                 <input type="text" value="${ not empty param.quantity ? param.quantity : 0}" name="quantity">
                 <input type="submit" value="Order">
             </form>
+            <%-- TODO requestScope? --%>
             <p class="access">${requestScope.message}</p>
+            <%-- TODO requestScope? --%>
             <p class="error">${requestScope.error}</p>
         </tr>
     </table>

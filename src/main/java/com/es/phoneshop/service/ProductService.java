@@ -1,4 +1,3 @@
-// TODO move to com.es.phoneshop.service
 package com.es.phoneshop.service;
 
 import com.es.phoneshop.model.product.ArrayListProductDao;
@@ -10,12 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// TODO rename to ProductService
 public final class ProductService {
 
     private static ProductService instance;
 
-    // TODO final
     private final ProductDao productList = ArrayListProductDao.getInstance();
 
 

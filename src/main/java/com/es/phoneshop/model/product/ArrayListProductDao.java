@@ -34,8 +34,7 @@ public final class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    // TODO use Stream API, it's not complicated for such a simple operation
-    // Hint: filter, findFirst, orElseThrow
+    // TODO use Stream API code convention
     public synchronized Product getProduct(final Long id) {
         return productList.stream().filter(x -> x.getId().equals(id))
                 .findFirst()

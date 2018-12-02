@@ -20,25 +20,28 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     @Override
     public void init() {
-        // TODO what's the point of calling super.init() ?
         arrayListProductDao = ArrayListProductDao.getInstance();
     }
 
     @Override
+    // TODO why is this method the same as #doGet?
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         process(request, response);
     }
 
     private void process(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        // TODO what will happen if id is not a valid long value?
         setCustomAttributes(request);
+        // TODO when product successfully added to cart, you must do redirect
         request.getRequestDispatcher("/WEB-INF/pages/productDetails.jsp").forward(request, response);
     }
 
 
     private void setCustomAttributes(final HttpServletRequest request) {
+        // TODO avoid naming variables with prefixes like 'my'
         Product myProduct = arrayListProductDao.getProduct(getIdFromURI(request));
         HttpSession session = request.getSession();
+        // TODO session should store 'Cart' instead of 'CartService'
+        // TODO prefer interface type to class type
         HttpSessionCartService httpSessionCartService = (HttpSessionCartService) session.getAttribute("cart");
         HolderRecentProducts recentProducts = (HolderRecentProducts) session.getAttribute("recentProducts");
         if (recentProducts == null) {
@@ -49,6 +52,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
                 recentProducts.updateList(myProduct);
             }
         }
+        // TODO why do you check 'quantity' param for GET method?
         if (request.getParameter("quantity") != null) {
             try {
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -57,6 +61,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
                 }
                 httpSessionCartService.add(myProduct.getId(), quantity);
                 session.setAttribute("cart", httpSessionCartService);
+                // TODO read task requirements carefully, success message should be passed via HTTP parameter
                 request.setAttribute("message", "Successfully added to cart");
             } catch (NumberFormatException ex) {
                 request.setAttribute("error", "Insert the number");
@@ -71,6 +76,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
     }
 
     @Override
+    // TODO why is this method the same as #doPost?
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         process(request, response);
     }
@@ -79,6 +85,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         String[] massStr = request.getRequestURI().split("/");
         try {
             return Long.parseLong(massStr[massStr.length - 1]);
+            // TODO don't handle NumberFormatException, map it to 400 error page in web.xml
         } catch (NumberFormatException ex) {
             throw new ProductNotFoundException("Product was not founded.");
         }

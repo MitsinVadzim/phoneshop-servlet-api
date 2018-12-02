@@ -7,6 +7,7 @@ public class CartItem {
     private int quantity;
     private Product product;
 
+    // TODO don't check quantity here
     void setQuantity(int quantity) {
         int result = this.quantity + quantity;
         if (result > product.getStock()) {
