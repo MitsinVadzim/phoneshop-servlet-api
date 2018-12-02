@@ -26,6 +26,9 @@
     </a>
 </header>
 <main>
+    <c:url var="productUrl" value="">
+
+    </c:url>
     <p>
         Welcome to Expert-Soft training!
     </p>
@@ -37,8 +40,10 @@
                 Description
             </td>
             <td class="price">Price</td>
+            <td>Stock</td>
         </tr>
         </thead>
+        ${requestScope.cart}
         <tr>
             <td>
                 <img class="product-tile"
@@ -49,8 +54,25 @@
                 <fmt:formatNumber value="${product.price}" type="currency"
                                   currencySymbol="${product.currency.symbol}"/>
             </td>
+            <td>${product.stock}</td>
+            <form method="post">
+                <input type="text" value="${ not empty param.quantity ? param.quantity : 0}" name="quantity">
+                <input type="submit" value="Order">
+            </form>
+            <p class="access">${requestScope.message}</p>
+            <p class="error">${requestScope.error}</p>
         </tr>
     </table>
+    <c:forEach var="recentProduct" items="${recentProducts}">
+        <td>
+            <a href="${productUrl}/phoneshop-servlet-api/products/${recentProduct.id}">
+                <img class="product-tile"
+                     src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${recentProduct.imageUrl}">
+            </a>
+        </td>
+        <p>${recentProduct.code}</p>
+        <p>${recentProduct.price}</p>
+    </c:forEach>
 </main>
 </body>
 </html>

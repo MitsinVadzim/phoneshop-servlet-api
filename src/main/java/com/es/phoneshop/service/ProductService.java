@@ -1,5 +1,5 @@
 // TODO move to com.es.phoneshop.service
-package com.es.phoneshop.logic;
+package com.es.phoneshop.service;
 
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
