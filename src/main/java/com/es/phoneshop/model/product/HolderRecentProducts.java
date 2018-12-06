@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HolderRecentProducts {
+    // TODO use java.util.BlockingQueue or java.util.Queue
+    // TODO store product ids in session instead of entire product
     private List<Product> recentProducts = new ArrayList<>();
 
     public void updateList(Product product) {

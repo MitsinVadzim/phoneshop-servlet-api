@@ -15,7 +15,6 @@ public class ProductListPageServlet extends HttpServlet {
 
     @Override
     public void init() {
-        // TODO what's the point of calling super.init() ?
         productService = ProductService.getInstance();
     }
 

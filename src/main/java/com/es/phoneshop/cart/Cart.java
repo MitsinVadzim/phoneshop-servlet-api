@@ -26,6 +26,7 @@ class Cart {
                 .filter(i -> id.equals(cartItemList.get(i).getProduct().getId())).findFirst().orElse(-1);
     }
 
+    // TODO return unmodifiable copy of list
     List<CartItem> getCartItemList() {
         return cartItemList;
     }
