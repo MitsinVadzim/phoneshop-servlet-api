@@ -1,22 +1,17 @@
 package com.es.phoneshop.cart;
 
-import com.es.phoneshop.exceptions.QuantityMoreThanStockException;
 import com.es.phoneshop.model.product.Product;
 
 public class CartItem {
+
     private int quantity;
     private Product product;
 
     void setQuantity(int quantity) {
-        int result = this.quantity + quantity;
-        if (result > product.getStock()) {
-            throw new QuantityMoreThanStockException("");
-        } else {
-            this.quantity = result;
-        }
+        this.quantity = quantity;
     }
 
-    int getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
@@ -24,8 +19,7 @@ public class CartItem {
         return product;
     }
 
-
-    CartItem(int quantity, Product product) {
+    public CartItem(int quantity, Product product) {
         this.quantity = quantity;
         this.product = product;
     }

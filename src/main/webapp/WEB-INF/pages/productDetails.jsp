@@ -43,7 +43,7 @@
             <td>Stock</td>
         </tr>
         </thead>
-        ${requestScope.cart}
+        ${sessionScope.cart}
         <tr>
             <td>
                 <img class="product-tile"
@@ -55,12 +55,11 @@
                                   currencySymbol="${product.currency.symbol}"/>
             </td>
             <td>${product.stock}</td>
-            <form method="post">
+            <form method="post" action="${productUrl}/phoneshop-servlet-api/products/${product.id}">
                 <input type="text" value="${ not empty param.quantity ? param.quantity : 0}" name="quantity">
-                <input type="submit" value="Order">
+                <button type="submit" name="id", value="${product.id}"Order></button>
             </form>
-            <p class="access">${requestScope.message}</p>
-            <p class="error">${requestScope.error}</p>
+            <p>${message}</p>
         </tr>
     </table>
     <c:forEach var="recentProduct" items="${recentProducts}">

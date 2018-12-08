@@ -1,32 +1,33 @@
 package com.es.phoneshop.cart;
 
-import com.es.phoneshop.exceptions.QuantityMoreThanStockException;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
-class Cart {
+public class Cart {
     private List<CartItem> cartItemList = new ArrayList<>();
 
-    void addToCart(CartItem cartItem) {
-        if (cartItem.getQuantity() > cartItem.getProduct().getStock()) {
-            throw new QuantityMoreThanStockException("");
-        }
-        int index = getIndexCartItemById(cartItem.getProduct().getId());
-        if (index >= 0) {
-            cartItemList.get(index).setQuantity(cartItem.getQuantity());
-        } else {
-            cartItemList.add(cartItem);
-        }
+    public void addToCart(CartItem cartItem) {
+        cartItemList.add(cartItem);
     }
 
-    private int getIndexCartItemById(Long id) {
-        return IntStream.range(0, cartItemList.size())
-                .filter(i -> id.equals(cartItemList.get(i).getProduct().getId())).findFirst().orElse(-1);
+    public void updateCartItemQuantity(int index, int quantity) {
+        cartItemList.get(index).setQuantity(quantity);
     }
 
-    List<CartItem> getCartItemList() {
-        return cartItemList;
+    public List<CartItem> getCartItemList() {
+        return Collections.unmodifiableList(cartItemList);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder text = new StringBuilder();
+        for (CartItem aCartItemList : cartItemList) {
+            text.append("Id: ").append(aCartItemList.getProduct().getId())
+                    .append("Code: ").append(aCartItemList.getProduct().getCode())
+                    .append("Quantity: ").append(aCartItemList.getQuantity())
+                    .append("Stock: ").append(aCartItemList.getProduct().getStock());
+        }
+        return text.toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
 import com.es.phoneshop.model.product.ProductDao;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,8 +45,8 @@ public class ProductDetailsPageServletTest {
 
     @Before
     public void setup() {
-        when(productDao.getProduct(PRODUCT_ID)).thenReturn(product);
-        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
+//        when(productDao.getProduct(PRODUCT_ID)).thenReturn(product);
+//        when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
     }
 
 //    @Test
@@ -62,7 +62,7 @@ public class ProductDetailsPageServletTest {
 //    }
 
 
-    @Test(expected = NumberFormatException.class)
+    @Test(expected = ProductNotFoundException.class)
     public void doGetWhenProductIdIsMalformed() throws ServletException, IOException {
         when(request.getRequestURI()).thenReturn(MALFORMED_URI);
 
