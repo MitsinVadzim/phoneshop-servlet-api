@@ -10,19 +10,49 @@
     </session-config>
 
     <servlet>
+        <servlet-name>delete</servlet-name>
+        <servlet-class>com.es.phoneshop.web.CartItemDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>productList</servlet-name>
         <servlet-class>com.es.phoneshop.web.ProductListPageServlet</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>cart</servlet-name>
+        <servlet-class>com.es.phoneshop.web.CartPageServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>product</servlet-name>
+        <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>minicart</servlet-name>
+        <servlet-class>com.es.phoneshop.web.MiniCartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>minicart</servlet-name>
+        <url-pattern>/cart/minicart</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>delete</servlet-name>
+        <url-pattern>/cart/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>productList</servlet-name>
         <url-pattern>/products</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>product</servlet-name>
-        <servlet-class>com.es.phoneshop.web.ProductDetailsPageServlet</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>cart</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>product</servlet-name>

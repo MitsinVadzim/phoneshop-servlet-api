@@ -1,25 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
-<html>
-<head>
-    <title>Product List</title>
-    <link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/styles/main.css">
-</head>
-<body class="product-list">
-<header>
-    <a href="${pageContext.servletContext.contextPath}">
-        <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
-        PhoneShop
-    </a>
-</header>
-<main>
-    <p>
-        Welcome to Expert-Soft training!
-    </p>
+
+<t:header_footer title="ProductList">
     <form method="get" name="products">
         <input type="text" name="search" value="${param.search}">
         <input type="submit" value="Search">
@@ -34,10 +19,6 @@
                     </c:if>
                 </c:forEach>
             </c:url>
-            <c:url var="productUrl" value="">
-
-            </c:url>
-
             <td>Image</td>
             <td>
                 Description
@@ -54,7 +35,6 @@
         <c:forEach var="product" items="${products}">
             <tr>
                 <td>
-                    <%-- TODO use <c:url> --%>
                     <a href="${productUrl}/phoneshop-servlet-api/products/${product.id}">
                         <img class="product-tile"
                              src="https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/${product.imageUrl}">
@@ -68,6 +48,4 @@
             </tr>
         </c:forEach>
     </table>
-</main>
-</body>
-</html>
+</t:header_footer>

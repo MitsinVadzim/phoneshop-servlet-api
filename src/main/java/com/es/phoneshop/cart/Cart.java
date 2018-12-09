@@ -1,10 +1,11 @@
 package com.es.phoneshop.cart;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Cart {
+public class Cart implements Serializable {
     private List<CartItem> cartItemList = new ArrayList<>();
 
     public void addToCart(CartItem cartItem) {
@@ -13,6 +14,10 @@ public class Cart {
 
     public void updateCartItemQuantity(int index, int quantity) {
         cartItemList.get(index).setQuantity(quantity);
+    }
+
+    public void deleteByIndex(int index){
+        cartItemList.remove(index);
     }
 
     public List<CartItem> getCartItemList() {

@@ -10,12 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// TODO rename to ProductService
 public final class ProductService {
 
     private static ProductService instance;
 
-    // TODO final
     private final ProductDao productList = ArrayListProductDao.getInstance();
 
 

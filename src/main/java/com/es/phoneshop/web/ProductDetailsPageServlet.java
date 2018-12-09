@@ -34,12 +34,13 @@ public class ProductDetailsPageServlet extends HttpServlet {
         if (objectQuantity != null) {
             try {
                 int quantity = Integer.parseInt(objectQuantity);
-                httpSessionCartService.add(product.getId(), quantity);
-                path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Product was added" + "&quantity=" + quantity;
-            } catch (NumberFormatException ex) {
+                if(httpSessionCartService.add(product.getId(), quantity + httpSessionCartService.getCartItemQuantityById(product.getId()))) {
+                    path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Product was added" + "&quantity=" + quantity;
+                }else{
+                    path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Not enough stock" + "&quantity=" + quantity;
+                }
+                } catch (NumberFormatException ex) {
                 path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Insert the number";
-            } catch (QuantityMoreThanStockException ex) {
-                path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Not enough stock" + "&quantity=" + Integer.parseInt(objectQuantity);
             }
         }
         response.sendRedirect(path);
