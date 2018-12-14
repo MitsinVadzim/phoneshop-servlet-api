@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class HttpSessionCartService implements CartService {
+    // TODO pass request (better session) via method parameter
     private HttpServletRequest request;
 
     public HttpSessionCartService(HttpServletRequest request) {
@@ -39,10 +40,12 @@ public class HttpSessionCartService implements CartService {
             if (index >= 0) {
                 cart.updateCartItemQuantity(index, quantity);
             } else {
+                // TODO dao must be member variable
                 cart.addToCart(new CartItem(quantity, ArrayListProductDao.getInstance().getProduct(productId)));
             }
         } else {
             cart = new Cart();
+            // TODO dao must be member variable
             cart.addToCart(new CartItem(quantity, ArrayListProductDao.getInstance().getProduct(productId)));
         }
         request.getSession().setAttribute("cart", cart);
@@ -55,6 +58,7 @@ public class HttpSessionCartService implements CartService {
             int index = getIndexCartItemById(productId, cart.getCartItemList());
             if (index >= 0) {
                 cart.deleteByIndex(index);
+                // TODO not necessary
                 request.getSession().setAttribute("cart", cart);
             }
         }

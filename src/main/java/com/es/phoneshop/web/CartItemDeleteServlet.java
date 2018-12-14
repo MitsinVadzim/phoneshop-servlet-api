@@ -16,8 +16,10 @@ public class CartItemDeleteServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
         String[] pathParts = pathInfo.split("/");
         String operation = pathParts[2];
+        // TODO extra check, change servlet mapping
         if (operation.equals("delete")) {
             Long id = getIdFromURI(request);
+            // TODO don't create HttpSessionCartService for every request
             HttpSessionCartService httpSessionCartService = new HttpSessionCartService(request);
             httpSessionCartService.delete(id);
         }
@@ -26,6 +28,7 @@ public class CartItemDeleteServlet extends HttpServlet {
 
     }
 
+    // TODO remove
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getContextPath() + "/cart";
