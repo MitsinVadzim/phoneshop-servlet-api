@@ -1,6 +1,7 @@
 <%@tag description="Common part of pages" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="title" required="true" fragment="false" %>
+<%@attribute name="isShowMiniCart" required="true" fragment="false" %>
 <html>
 <head>
     <title>
@@ -15,6 +16,9 @@
         <img src="${pageContext.servletContext.contextPath}/images/logo.svg"/>
         PhoneShop
     </a>
+    <c:if test="${isShowMiniCart == true}">
+        <a href="${pageContext.servletContext.contextPath}/cart">Cart: ${sessionScope.cart.totalPrice}</a>
+    </c:if>
 </header>
 <main>
     <c:url var="productUrl" value="">

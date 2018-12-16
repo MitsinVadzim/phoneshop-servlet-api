@@ -1,12 +1,22 @@
 package com.es.phoneshop.cart;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Cart implements Serializable {
     private List<CartItem> cartItemList = new ArrayList<>();
+    private BigDecimal totalPrice;
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public void addToCart(CartItem cartItem) {
         cartItemList.add(cartItem);

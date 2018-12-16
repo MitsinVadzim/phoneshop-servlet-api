@@ -2,11 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<t:header_footer title="Cart" isShowMiniCart="false">
-    <c:if test="${not empty param.message}">
-        <p>${param.message}</p>
-    </c:if>
-    <form method="post">
+<t:header_footer title="Checkout" isShowMiniCart="false">
+    ${message}
     <table>
         <thead>
         <tr>
@@ -16,9 +13,6 @@
             </td>
             <td class="Price">Price</td>
             <td>Quantity</td>
-            <td>Stock</td>
-            <td>Update Field</td>
-            <td>Delete Field</td>
         </tr>
         <c:url var="productUrl" value="">
         </c:url>
@@ -36,26 +30,30 @@
                                       currencySymbol="${cartItem.product.currency.symbol}"/>
                 </td>
                 <td>
-                    ${cartItem.quantity}
-                </td>
-                <td>${cartItem.product.stock}</td>
-                <td>
-                    <input type="text" value="${cartItem.quantity}" name="quantity">
-                    <input type="hidden" name="productId" value="${cartItem.product.id}">
-                    <c:if test="${not empty mapErrors[cartItem.product.id]}">
-                        <p>${mapErrors[cartItem.product.id]}</p>
-                    </c:if>
-                    <%--<p>${arrMessage[loop.index]}</p>--%>
-                </td>
-                <td>
-                    <%--<form method="post" action="cart/${cartItem.product.id}/delete">--%>
-                        <button formaction="cart/${cartItem.product.id}/delete">Delete</button>
-                    <%--</form>--%>
+                        ${cartItem.quantity}
                 </td>
             </tr>
         </c:forEach>
         </thead>
     </table>
-        <button type="submit">Update Cart</button>
+    <form method="post">
+        Phone: <input type="text" name="phone" placeholder="phone number" required>
+        <br>
+        Delivery mode: Courier
+        <input type="hidden" name="mode" value="Courier">
+        <br>
+        Delivery date:
+        <input type="text" name="date" placeholder="date" required>
+        <br>
+        Cost of delivery: 10$
+        <input type="hidden" name="cost" value="10">
+        <br>
+        Delivery address:
+        <input type="text" name="address" required>
+        <br>
+        Payment method: money of courier
+        <input type="hidden" name="method" value="money of courier">
+        <br>
+        <button>Order</button>
     </form>
 </t:header_footer>

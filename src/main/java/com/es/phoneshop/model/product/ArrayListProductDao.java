@@ -1,12 +1,13 @@
 package com.es.phoneshop.model.product;
 
 import com.es.phoneshop.exceptions.ProductNotFoundException;
+import com.es.phoneshop.interfaces.IDao;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class ArrayListProductDao implements ProductDao {
+public final class ArrayListProductDao implements IDao<Product, Long> {
 
     private static ArrayListProductDao instance;
 
@@ -30,14 +31,14 @@ public final class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public synchronized Product getProduct(final Long id) {
+    public synchronized Product getElement(final Long id) {
         return productList.stream().filter(x -> x.getId().equals(id))
-                .findFirst()
+                .findAny()
                 .orElseThrow(() -> new ProductNotFoundException("Product with" + id + "was not founded."));
     }
 
     @Override
-    public List<Product> findProducts() {
+    public List<Product> findElements() {
         return productList.stream().filter(x -> x.getPrice() != null)
                 .filter(x -> x.getStock() > 0)
                 .collect(Collectors.toList());

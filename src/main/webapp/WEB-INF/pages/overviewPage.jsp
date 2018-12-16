@@ -2,11 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<t:header_footer title="Cart" isShowMiniCart="false">
-    <c:if test="${not empty param.message}">
-        <p>${param.message}</p>
-    </c:if>
-    <form method="post">
+<t:header_footer title="Overview" isShowMiniCart="false">
     <table>
         <thead>
         <tr>
@@ -16,13 +12,10 @@
             </td>
             <td class="Price">Price</td>
             <td>Quantity</td>
-            <td>Stock</td>
-            <td>Update Field</td>
-            <td>Delete Field</td>
         </tr>
         <c:url var="productUrl" value="">
         </c:url>
-        <c:forEach var="cartItem" items="${sessionScope.cart.cartItemList}" varStatus="loop">
+        <c:forEach var="cartItem" items="${order.cart.cartItemList}" varStatus="loop">
             <tr>
                 <td>
                     <a href="${productUrl}/phoneshop-servlet-api/products/${cartItem.product.id}">
@@ -36,26 +29,33 @@
                                       currencySymbol="${cartItem.product.currency.symbol}"/>
                 </td>
                 <td>
-                    ${cartItem.quantity}
-                </td>
-                <td>${cartItem.product.stock}</td>
-                <td>
-                    <input type="text" value="${cartItem.quantity}" name="quantity">
-                    <input type="hidden" name="productId" value="${cartItem.product.id}">
-                    <c:if test="${not empty mapErrors[cartItem.product.id]}">
-                        <p>${mapErrors[cartItem.product.id]}</p>
-                    </c:if>
-                    <%--<p>${arrMessage[loop.index]}</p>--%>
-                </td>
-                <td>
-                    <%--<form method="post" action="cart/${cartItem.product.id}/delete">--%>
-                        <button formaction="cart/${cartItem.product.id}/delete">Delete</button>
-                    <%--</form>--%>
+                        ${cartItem.quantity}
                 </td>
             </tr>
         </c:forEach>
+        <tr>
+            <td></td>
+            <td>
+
+            </td>
+            <td class="Price">
+                The price of all goods:
+            </td>
+            <td>${order.cart.totalPrice}</td>
+        </tr>
         </thead>
     </table>
-        <button type="submit">Update Cart</button>
-    </form>
+    Phone: ${order.phoneNumber}
+    <br>
+    Delivery mode: ${order.deliveryMode}
+    <br>
+    Delivery date: ${order.deliveryDate}
+    <br>
+    Cost of delivery: ${order.costOfDeliver}
+    <br>
+    Delivery address: ${order.deliveryAddress}
+    <br>
+    Payment method: ${order.paymentMethod}
+    <br>
+    Total Price: ${order.cart.totalPrice + order.costOfDeliver}
 </t:header_footer>

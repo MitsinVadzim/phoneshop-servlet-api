@@ -1,7 +1,7 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.interfaces.ICartService;
 import com.es.phoneshop.exceptions.ProductNotFoundException;
-import com.es.phoneshop.exceptions.QuantityMoreThanStockException;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.HolderRecentProducts;
 import com.es.phoneshop.model.product.Product;
@@ -20,26 +20,33 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     private ArrayListProductDao arrayListProductDao;
 
+    private ICartService httpSessionCartService;
+
     @Override
     public void init() {
         arrayListProductDao = ArrayListProductDao.getInstance();
+        httpSessionCartService = HttpSessionCartService.getInstance();
     }
 
     @Override
-    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        Product product = arrayListProductDao.getProduct(getIdFromURI(request));
-        HttpSessionCartService httpSessionCartService = new HttpSessionCartService(request);
+    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        Product product = arrayListProductDao.getElement(getIdFromURI(request));
+        HttpSession session = request.getSession();
         String objectQuantity = request.getParameter("quantity");
         String path = request.getContextPath() + "/products/" + request.getParameter("id");
         if (objectQuantity != null) {
             try {
                 int quantity = Integer.parseInt(objectQuantity);
-                if(httpSessionCartService.add(product.getId(), quantity + httpSessionCartService.getCartItemQuantityById(product.getId()))) {
-                    path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Product was added" + "&quantity=" + quantity;
+                if (quantity > 0) {
+                    if (httpSessionCartService.add(product.getId(), quantity + httpSessionCartService.getCartItemQuantityById(product.getId(), session), session)) {
+                        path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Product was added" + "&quantity=" + quantity;
+                    } else {
+                        path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Not enough stock" + "&quantity=" + quantity;
+                    }
                 }else{
-                    path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Not enough stock" + "&quantity=" + quantity;
+                    path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Incorrect number" + "&quantity=" + quantity;
                 }
-                } catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 path = request.getContextPath() + "/products/" + request.getParameter("id") + "?orderResult=" + "Insert the number";
             }
         }
@@ -48,7 +55,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        Product product = arrayListProductDao.getProduct(getIdFromURI(request));
+        Product product = arrayListProductDao.getElement(getIdFromURI(request));
         request.setAttribute("message", request.getParameter("orderResult"));
         request.setAttribute("product", product);
         HttpSession session = request.getSession();

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<t:header_footer title="Product Details">
+<t:header_footer title="Product Details" isShowMiniCart="true">
     <table>
         <thead>
         <tr>
@@ -28,7 +28,7 @@
             </td>
             <td>${product.stock}</td>
             <form method="post" action="${homeUrl}/phoneshop-servlet-api/products/${product.id}">
-                <input type="text" value="${ not empty param.quantity ? param.quantity : 0}" name="quantity">
+                <input type="text" value="${ not empty param.quantity ? param.quantity : 1}" name="quantity">
                 <button type="submit" name="id", value="${product.id}">Order</button>
             </form>
             <p>${message}</p>

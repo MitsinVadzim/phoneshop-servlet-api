@@ -4,7 +4,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
 
-<t:header_footer title="ProductList">
+<t:header_footer title="ProductList" isShowMiniCart="true">
     <form method="get" name="products">
         <input type="text" name="search" value="${param.search}">
         <input type="submit" value="Search">

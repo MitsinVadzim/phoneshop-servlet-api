@@ -1,9 +1,8 @@
-// TODO move to com.es.phoneshop.service
 package com.es.phoneshop.service;
 
+import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.model.product.ProductDao;
 
 import java.util.Comparator;
 import java.util.List;
@@ -14,7 +13,7 @@ public final class ProductService {
 
     private static ProductService instance;
 
-    private final ProductDao productList = ArrayListProductDao.getInstance();
+    private final IDao<Product, Long> productList = ArrayListProductDao.getInstance();
 
 
     private ProductService() {
@@ -23,7 +22,7 @@ public final class ProductService {
 
     public synchronized static ProductService getInstance() {
         if (instance == null) {
-            synchronized (ArrayListProductDao.class) {
+            synchronized (ProductService.class) {
                 if (instance == null) {
                     instance = new ProductService();
                 }
@@ -36,10 +35,9 @@ public final class ProductService {
     private List<Product> searchProduct(final List<Product> list, final String search) {
 
         Map<Product, Long> mapResult =
-                list.stream().collect(Collectors.toMap(c -> c, Product::getId));
-        mapResult = mapResult.entrySet().stream().peek(x -> x.setValue(0L)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                list.stream().collect(Collectors.toMap(c -> c, l->0L));
+        //mapResult = mapResult.entrySet().stream().peek(x -> x.setValue(0L)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        // TODO use Map<Product, Integer> instead of Priority
         for (String retval : search.split("\\s")) {
             mapResult = mapResult.entrySet().stream().peek(x -> {
 
@@ -58,9 +56,9 @@ public final class ProductService {
     public List<Product> findProducts(final String search, final String sort) {
 
         if (search.equals("")) {
-            return productList.findProducts();
+            return productList.findElements();
         }
-        List<Product> result = searchProduct(productList.findProducts(), search);
+        List<Product> result = searchProduct(productList.findElements(), search);
 
         switch (sort) {
             case "ascDescription":

@@ -2,26 +2,40 @@ package com.es.phoneshop.service;
 
 import com.es.phoneshop.cart.Cart;
 import com.es.phoneshop.cart.CartItem;
-import com.es.phoneshop.cart.CartService;
-import com.es.phoneshop.exceptions.QuantityMoreThanStockException;
+import com.es.phoneshop.interfaces.ICartService;
+import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.model.product.ArrayListProductDao;
+import com.es.phoneshop.model.product.Product;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class HttpSessionCartService implements CartService {
-    private HttpServletRequest request;
+public class HttpSessionCartService implements ICartService {
+    private static HttpSessionCartService instance;
+    private final IDao<Product, Long> productList = ArrayListProductDao.getInstance();
 
-    public HttpSessionCartService(HttpServletRequest request) {
-        this.request = request;
+    private HttpSessionCartService() {
     }
 
-    public int getCartItemQuantityById(Long productId) {
-        Cart cart = (Cart) request.getSession().getAttribute("cart");
+    public synchronized static HttpSessionCartService getInstance() {
+        if (instance == null) {
+            synchronized (HttpSessionCartService.class) {
+                if (instance == null) {
+                    instance = new HttpSessionCartService();
+                }
+            }
+        }
+        return instance;
+    }
+
+    @Override
+    public int getCartItemQuantityById(Long productId, HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
         if (cart != null) {
             int index = getIndexCartItemById(productId, cart.getCartItemList());
-            if (index >=0) {
+            if (index >= 0) {
                 return cart.getCartItemList().get(index).getQuantity();
             }
         }
@@ -29,9 +43,9 @@ public class HttpSessionCartService implements CartService {
     }
 
     @Override
-    public boolean add(Long productId, int quantity) {
-        Cart cart = (Cart) request.getSession().getAttribute("cart");
-        if (ArrayListProductDao.getInstance().getProduct(productId).getStock() < quantity) {
+    public boolean add(Long productId, int quantity, HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (ArrayListProductDao.getInstance().getElement(productId).getStock() < quantity) {
             return false;
         }
         if (cart != null) {
@@ -39,23 +53,37 @@ public class HttpSessionCartService implements CartService {
             if (index >= 0) {
                 cart.updateCartItemQuantity(index, quantity);
             } else {
-                cart.addToCart(new CartItem(quantity, ArrayListProductDao.getInstance().getProduct(productId)));
+                cart.addToCart(new CartItem(quantity, productList.getElement(productId)));
             }
         } else {
             cart = new Cart();
-            cart.addToCart(new CartItem(quantity, ArrayListProductDao.getInstance().getProduct(productId)));
+            cart.addToCart(new CartItem(quantity, productList.getElement(productId)));
+            session.setAttribute("cart", cart);
         }
-        request.getSession().setAttribute("cart", cart);
+        recalculateCart(session);
         return true;
     }
 
-    public void delete(Long productId){
-        Cart cart = (Cart) request.getSession().getAttribute("cart");
+    @Override
+    public void recalculateCart(HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart != null) {
+            BigDecimal totalPrice = cart.getCartItemList().stream()
+                    .map(x -> x.getProduct().getPrice().multiply(BigDecimal.valueOf(x.getQuantity())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            cart.setTotalPrice(totalPrice);
+        }
+    }
+
+    @Override
+    public void delete(Long productId, HttpSession session) {
+        Cart cart = (Cart) session.getAttribute("cart");
         if (cart != null) {
             int index = getIndexCartItemById(productId, cart.getCartItemList());
             if (index >= 0) {
                 cart.deleteByIndex(index);
-                request.getSession().setAttribute("cart", cart);
+                recalculateCart(session);
+                //session.setAttribute("cart", cart);
             }
         }
     }
