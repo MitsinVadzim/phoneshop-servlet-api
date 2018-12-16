@@ -26,7 +26,6 @@
     <p>
         Welcome to Expert-Soft training!
     </p>
-    <a href="${productUrl}/phoneshop-servlet-api/cart/minicart">Minicart</a>
     <jsp:doBody/>
 </main>
 </body>

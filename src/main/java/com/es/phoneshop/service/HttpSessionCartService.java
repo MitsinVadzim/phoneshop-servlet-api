@@ -88,8 +88,23 @@ public class HttpSessionCartService implements ICartService {
         }
     }
 
+    @Override
+    public void deleteCart(HttpSession session) {
+        session.removeAttribute("cart");
+    }
+
     private int getIndexCartItemById(Long id, List<CartItem> cartItemList) {
         return IntStream.range(0, cartItemList.size())
                 .filter(i -> id.equals(cartItemList.get(i).getProduct().getId())).findFirst().orElse(-1);
+    }
+
+    @Override
+    public boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

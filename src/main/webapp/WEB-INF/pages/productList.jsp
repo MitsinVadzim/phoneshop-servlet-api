@@ -5,6 +5,8 @@
 <jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
 
 <t:header_footer title="ProductList" isShowMiniCart="true">
+    <a href="${pageContext.servletContext.contextPath}/checkout">Checkout</a>
+    <br>
     <form method="get" name="products">
         <input type="text" name="search" value="${param.search}">
         <input type="submit" value="Search">

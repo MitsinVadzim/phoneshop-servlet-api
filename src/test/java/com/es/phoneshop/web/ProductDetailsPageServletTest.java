@@ -1,8 +1,8 @@
 package com.es.phoneshop.web;
 
 import com.es.phoneshop.exceptions.ProductNotFoundException;
+import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.model.product.Product;
-import com.es.phoneshop.model.product.ProductDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ public class ProductDetailsPageServletTest {
     private RequestDispatcher requestDispatcher;
 
     @Mock
-    private ProductDao productDao;
+    private IDao<Product, Long> productDao;
 
     @Mock
     private Product product;

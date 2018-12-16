@@ -79,10 +79,6 @@ public class ProductDetailsPageServlet extends HttpServlet {
         if (index != -1) {
             string = string.substring(0, index);
         }
-        try {
-            return Long.parseLong(string);
-        } catch (NumberFormatException ex) {
-            throw new ProductNotFoundException("Product was not founded.");
-        }
+        return Long.parseLong(string);
     }
 }

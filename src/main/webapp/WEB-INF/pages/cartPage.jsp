@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:header_footer title="Cart" isShowMiniCart="false">
+    <a href="${pageContext.servletContext.contextPath}/checkout">Checkout</a>
+    <br>
     <c:if test="${not empty param.message}">
         <p>${param.message}</p>
     </c:if>

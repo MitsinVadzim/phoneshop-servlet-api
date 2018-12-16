@@ -22,7 +22,7 @@ public class ProductListPageServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("search");
         String sort = request.getParameter("sort");
-        if (search == null) {
+        if (search == null || search.equals(" ")) {
             search = "";
         }
         if (sort == null) {

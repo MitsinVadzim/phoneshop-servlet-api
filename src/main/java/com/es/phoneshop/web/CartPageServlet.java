@@ -26,7 +26,7 @@ public class CartPageServlet extends HttpServlet {
         String[] arrId = request.getParameterValues("productId");
         Map<Long, String> mapErrors = new HashMap<>();
         for (int i = 0; i < arrQuantity.length; i++) {
-            if (!isInt(arrQuantity[i])) {
+            if (!httpSessionCartService.isInt(arrQuantity[i])) {
                 mapErrors.put(Long.parseLong(arrId[i]), "Insert the number");
             } else {
                 if (Integer.parseInt(arrQuantity[i]) > 0) {
@@ -50,14 +50,5 @@ public class CartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/pages/cartPage.jsp").forward(request, response);
-    }
-
-    private boolean isInt(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 }

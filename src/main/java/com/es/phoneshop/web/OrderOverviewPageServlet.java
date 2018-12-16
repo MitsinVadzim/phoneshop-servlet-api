@@ -13,8 +13,12 @@ import java.io.IOException;
 
 public class OrderOverviewPageServlet extends HttpServlet {
 
-    private IDao<Order, String> orderList = ArrayListOrderDao.getInstance();
+    private IDao<Order, String> orderList;
 
+    @Override
+    public void init() throws ServletException {
+        orderList = ArrayListOrderDao.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

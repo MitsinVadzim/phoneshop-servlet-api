@@ -4,7 +4,6 @@ import com.es.phoneshop.cart.Cart;
 import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.model.order.ArrayListOrderDao;
 import com.es.phoneshop.model.order.Order;
-import com.sun.deploy.net.HttpRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -31,9 +30,9 @@ public class OrderService {
         return instance;
     }
 
-    public String addOrder(HttpServletRequest request){
+    public String addOrder(HttpServletRequest request) {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        if (cart != null){
+        if (cart != null) {
             Order order = new Order();
             order.setCart(cart);
             order.setCostOfDeliver(new BigDecimal(request.getParameter("cost")));
@@ -46,7 +45,7 @@ public class OrderService {
             order.setId(id);
             orderList.save(order);
             return id;
-        }else{
+        } else {
             return null;
         }
     }

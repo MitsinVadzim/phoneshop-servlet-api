@@ -7,4 +7,6 @@ public interface ICartService {
     int getCartItemQuantityById(Long productId, HttpSession session);
     void delete(Long productId, HttpSession session);
     void recalculateCart(HttpSession session);
+    void deleteCart(HttpSession session);
+    boolean isInt(String string);
 }

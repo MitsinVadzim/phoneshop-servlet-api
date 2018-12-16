@@ -13,17 +13,20 @@ import java.io.IOException;
 
 public class CheckoutPageServlet extends HttpServlet {
 
-    private OrderService orderService = OrderService.getInstance();
+    private OrderService orderService;
+    private ICartService httpSessionCartService;
 
     @Override
     public void init(){
-
+        orderService = OrderService.getInstance();
+        httpSessionCartService = HttpSessionCartService.getInstance();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = orderService.addOrder(request);
         if (id != null) {
+            httpSessionCartService.deleteCart(request.getSession());
             String path = request.getContextPath() + "/order/overview/" + id;
             response.sendRedirect(path);
         }else{

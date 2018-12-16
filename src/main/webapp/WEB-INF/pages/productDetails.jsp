@@ -4,6 +4,8 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <t:header_footer title="Product Details" isShowMiniCart="true">
+    <a href="${pageContext.servletContext.contextPath}/checkout">Checkout</a>
+    <br>
     <table>
         <thead>
         <tr>

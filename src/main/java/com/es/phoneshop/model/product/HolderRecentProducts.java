@@ -1,5 +1,6 @@
 package com.es.phoneshop.model.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HolderRecentProducts {
@@ -8,6 +9,10 @@ public class HolderRecentProducts {
 
     public HolderRecentProducts(List<Product> productList) {
         this.recentProducts = productList;
+    }
+
+    public HolderRecentProducts(){
+        recentProducts = new ArrayList<>();
     }
 
     public void updateList(Product product) {

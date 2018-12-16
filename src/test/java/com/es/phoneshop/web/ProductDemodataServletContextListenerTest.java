@@ -1,8 +1,9 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.listener.ProductDemodataServletContextListener;
 import com.es.phoneshop.model.product.ArrayListProductDao;
-import com.es.phoneshop.model.product.ProductDao;
+import com.es.phoneshop.model.product.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class ProductDemodataServletContextListenerTest {
     @Mock
     private ServletContextEvent servletContextEvent;
-    private ProductDao dao = ArrayListProductDao.getInstance();
+    private IDao<Product,Long> dao = ArrayListProductDao.getInstance();
     private ProductDemodataServletContextListener listener = new ProductDemodataServletContextListener();
 
     @Before
@@ -27,6 +28,6 @@ public class ProductDemodataServletContextListenerTest {
     @Test
     public void testContextInitialized() {
         listener.contextInitialized(servletContextEvent);
-        assertEquals(12, dao.findProducts().size());
+        assertEquals(12, dao.findElements().size());
     }
 }
