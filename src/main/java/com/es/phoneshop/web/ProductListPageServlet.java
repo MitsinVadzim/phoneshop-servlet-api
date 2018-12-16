@@ -19,6 +19,7 @@ public class ProductListPageServlet extends HttpServlet {
     }
 
     @Override
+    // TODO handle case when only sort is provided
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("search");
         String sort = request.getParameter("sort");

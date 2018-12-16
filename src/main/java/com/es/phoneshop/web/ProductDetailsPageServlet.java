@@ -26,8 +26,13 @@ public class ProductDetailsPageServlet extends HttpServlet {
     }
 
     @Override
+    // TODO in case of error forward must occur
+    // TODO /products/333 status code must be 404 instead of 500
+    // TODO /products/qq status code must be 400 instead of 500
+    // TODO zero or negative quantity must not be permitted
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         Product product = arrayListProductDao.getProduct(getIdFromURI(request));
+        // TODO why do you create HttpSessionCartService for every request?
         HttpSessionCartService httpSessionCartService = new HttpSessionCartService(request);
         String objectQuantity = request.getParameter("quantity");
         String path = request.getContextPath() + "/products/" + request.getParameter("id");
@@ -75,6 +80,7 @@ public class ProductDetailsPageServlet extends HttpServlet {
         try {
             return Long.parseLong(string);
         } catch (NumberFormatException ex) {
+            // TODO ProductNotFoundException is not a result of NumberFormatException
             throw new ProductNotFoundException("Product was not founded.");
         }
     }

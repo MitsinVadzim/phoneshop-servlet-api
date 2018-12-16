@@ -15,6 +15,7 @@
             <td>Stock</td>
         </tr>
         </thead>
+        <%-- TODO use JSTL, not #toString() ! --%>
         ${sessionScope.cart}
         <tr>
             <td>
@@ -28,6 +29,7 @@
             </td>
             <td>${product.stock}</td>
             <form method="post" action="${homeUrl}/phoneshop-servlet-api/products/${product.id}">
+                <%-- TODO set 1 as default value --%>
                 <input type="text" value="${ not empty param.quantity ? param.quantity : 0}" name="quantity">
                 <button type="submit" name="id", value="${product.id}">Order</button>
             </form>
