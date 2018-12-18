@@ -17,7 +17,6 @@
             <td>Stock</td>
         </tr>
         </thead>
-        ${sessionScope.cart}
         <tr>
             <td>
                 <img class="product-tile"

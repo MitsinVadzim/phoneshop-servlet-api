@@ -1,5 +1,6 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.exceptions.OrderNotFoundException;
 import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.interfaces.IDao;
 import com.es.phoneshop.model.order.ArrayListOrderDao;
@@ -28,7 +29,7 @@ public class OrderOverviewPageServlet extends HttpServlet {
             request.setAttribute("order", order);
             request.getRequestDispatcher("/WEB-INF/pages/overviewPage.jsp").forward(request, response);
         }else{
-            throw new ProductNotFoundException("Order was not founded");
+            throw new OrderNotFoundException("Order was not founded");
         }
     }
 
