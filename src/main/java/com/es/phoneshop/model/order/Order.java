@@ -10,7 +10,7 @@ public class Order {
     private String phoneNumber;
     private String deliveryMode;
     private String deliveryDate;
-    private BigDecimal costOfDeliver;
+    private int costOfDeliver;
     private String paymentMethod;
     private String id;
 
@@ -62,11 +62,11 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public BigDecimal getCostOfDeliver() {
+    public int getCostOfDeliver() {
         return costOfDeliver;
     }
 
-    public void setCostOfDeliver(BigDecimal costOfDeliver) {
+    public void setCostOfDeliver(int costOfDeliver) {
         this.costOfDeliver = costOfDeliver;
     }
 

@@ -1,8 +1,12 @@
 package com.es.phoneshop.model.product;
 
+import com.es.phoneshop.model.review.Review;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 
 public class Product  implements Serializable {
     private Long id;
@@ -18,6 +22,8 @@ public class Product  implements Serializable {
     private Currency currency;
     private int stock;
     private String imageUrl;
+    private List<Review> reviewList;
+    private double averageRating;
 
     public Product() {
     }
@@ -30,6 +36,15 @@ public class Product  implements Serializable {
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
+        this.reviewList = new ArrayList<>();
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public Long getId() {
@@ -86,5 +101,9 @@ public class Product  implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
     }
 }

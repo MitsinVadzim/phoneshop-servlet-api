@@ -5,6 +5,7 @@ import com.es.phoneshop.exceptions.ProductNotFoundException;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.HolderRecentProducts;
 import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.review.Review;
 import com.es.phoneshop.service.HttpSessionCartService;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,15 @@ public class ProductDetailsPageServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         Product product = arrayListProductDao.getElement(getIdFromURI(request));
+        //Дальше идёт очень убогий код, в идеале это нужно было бы вынести в сервис. Но на момент создания этого сервлета я не создал сервис к сожалению(
+        String nameUser = request.getParameter("name");
+        String comment = request.getParameter("comment");
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        if (!(nameUser ==null || comment == null)){
+            double recalculatedRating = (product.getAverageRating()*product.getReviewList().size() + rating)/(product.getReviewList().size()+1);
+            product.setAverageRating(recalculatedRating);
+            product.getReviewList().add(new Review(comment, nameUser, rating));
+        }
         HttpSession session = request.getSession();
         String objectQuantity = request.getParameter("quantity");
         String path = request.getContextPath() + "/products/" + request.getParameter("id");

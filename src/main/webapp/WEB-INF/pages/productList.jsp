@@ -32,6 +32,7 @@
                 <a href="${nextUrl}&sort=ascPrice">asc</a>
                 <a href="${nextUrl}&sort=descPrice">desc</a>
             </td>
+            <td>Rating</td>
         </tr>
         </thead>
         <c:forEach var="product" items="${products}">
@@ -47,6 +48,7 @@
                     <fmt:formatNumber value="${product.price}" type="currency"
                                       currencySymbol="${product.currency.symbol}"/>
                 </td>
+                <td>${product.averageRating}</td>
             </tr>
         </c:forEach>
     </table>

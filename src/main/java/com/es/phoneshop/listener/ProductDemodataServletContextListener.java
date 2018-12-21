@@ -1,6 +1,8 @@
 package com.es.phoneshop.listener;
 
 import com.es.phoneshop.mapping.ArrayListMapping;
+import com.es.phoneshop.model.deliveryMode.ArrayListDeliveryModeDao;
+import com.es.phoneshop.model.deliveryMode.DeliveryMode;
 import com.es.phoneshop.model.product.ArrayListProductDao;
 import com.es.phoneshop.model.product.Product;
 
@@ -33,6 +35,10 @@ public class ProductDemodataServletContextListener implements ServletContextList
         productDao.save(new Product(10L, "simc56", "Siemens C56", new BigDecimal(70), usd, 20, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20C56.jpg"));
         productDao.save(new Product(11L, "simc61", "Siemens C61", new BigDecimal(80), usd, 30, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20C61.jpg"));
         productDao.save(new Product(12L, "simsxg75", "Siemens SXG75", new BigDecimal(150), usd, 40, "https://raw.githubusercontent.com/andrewosipenko/phoneshop-ext-images/master/manufacturer/Siemens/Siemens%20SXG75.jpg"));
+
+        ArrayListDeliveryModeDao deliveryMode = ArrayListDeliveryModeDao.getInstance();
+        deliveryMode.save(new DeliveryMode("Courier", 10, 0L));
+        deliveryMode.save(new DeliveryMode("Pickup", 0, 1L));
 
         ArrayListMapping arrayListMapping = ArrayListMapping.getInstance();
         arrayListMapping.add("Cart", "localhost:8080/phoneshop-servlet-api/cart");

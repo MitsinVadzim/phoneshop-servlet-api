@@ -45,7 +45,8 @@ public class HttpSessionCartService implements ICartService {
     @Override
     public boolean add(Long productId, int quantity, HttpSession session) {
         Cart cart = (Cart) session.getAttribute("cart");
-        if (ArrayListProductDao.getInstance().getElement(productId).getStock() < quantity) {
+        Product product = ArrayListProductDao.getInstance().getElement(productId);
+        if (product.getStock() < quantity) {
             return false;
         }
         if (cart != null) {
@@ -83,7 +84,6 @@ public class HttpSessionCartService implements ICartService {
             if (index >= 0) {
                 cart.deleteByIndex(index);
                 recalculateCart(session);
-                //session.setAttribute("cart", cart);
             }
         }
     }

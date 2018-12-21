@@ -2,6 +2,9 @@ package com.es.phoneshop.web;
 
 import com.es.phoneshop.cart.Cart;
 import com.es.phoneshop.interfaces.ICartService;
+import com.es.phoneshop.interfaces.IDao;
+import com.es.phoneshop.model.deliveryMode.ArrayListDeliveryModeDao;
+import com.es.phoneshop.model.deliveryMode.DeliveryMode;
 import com.es.phoneshop.service.HttpSessionCartService;
 import com.es.phoneshop.service.OrderService;
 
@@ -15,11 +18,13 @@ public class CheckoutPageServlet extends HttpServlet {
 
     private OrderService orderService;
     private ICartService httpSessionCartService;
+    private IDao<DeliveryMode, Long> deliveryMode;
 
     @Override
     public void init(){
         orderService = OrderService.getInstance();
         httpSessionCartService = HttpSessionCartService.getInstance();
+        deliveryMode = ArrayListDeliveryModeDao.getInstance();
     }
 
     @Override
@@ -37,6 +42,7 @@ public class CheckoutPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("modeList", deliveryMode.findElements());
         request.getRequestDispatcher("/WEB-INF/pages/checkoutPage.jsp").forward(request, response);
     }
 }

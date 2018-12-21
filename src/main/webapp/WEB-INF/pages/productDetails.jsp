@@ -30,11 +30,44 @@
             <td>${product.stock}</td>
             <form method="post" action="${homeUrl}/phoneshop-servlet-api/products/${product.id}">
                 <input type="text" value="${ not empty param.quantity ? param.quantity : 1}" name="quantity">
-                <button type="submit" name="id", value="${product.id}">Order</button>
+                <button type="submit" name="id" , value="${product.id}">Order</button>
             </form>
             <p>${message}</p>
         </tr>
     </table>
+    <table>
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>
+                Comment
+            </td>
+            <td>Rating</td>
+        </tr>
+        </thead>
+        <c:forEach var="review" items="${product.reviewList}">
+            <tr>
+                <td>${review.name}</td>
+                <td>
+                        ${review.comment}
+                </td>
+                <td>${review.rating}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <form method="post">
+        Name: <input type="text" name="name"> <br>
+        Comment: <input type="text" name="comment"> <br>
+        Rating:
+        <select name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <input type="submit">
+    </form>
     <c:forEach var="recentProduct" items="${recentProducts}">
         <td>
             <a href="${homeUrl}/phoneshop-servlet-api/products/${recentProduct.id}">

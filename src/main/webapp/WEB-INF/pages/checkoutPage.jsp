@@ -39,18 +39,18 @@
     <form method="post">
         Phone: <input type="text" name="phone" placeholder="phone number" required>
         <br>
-        Delivery mode: Courier
+        Delivery mode:
         <select name="mode">
-            <option value="Courier">Courier</option>
-            <option value="Pickup">Pickup</option>
+            <c:forEach var="modeItem" items="${modeList}">
+                <option value="${modeItem.id}">
+                        ${modeItem.mode} ${modeItem.cost}$
+                </option>
+            </c:forEach>
         </select>
         <%--<input type="hidden" name="mode" value="Courier">--%>
         <br>
         Delivery date:
         <input type="text" name="date" placeholder="date" required>
-        <br>
-        Cost of delivery: 10$
-        <input type="hidden" name="cost" value="10">
         <br>
         Delivery address:
         <input type="text" name="address" required>
