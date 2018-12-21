@@ -40,7 +40,11 @@
         Phone: <input type="text" name="phone" placeholder="phone number" required>
         <br>
         Delivery mode: Courier
-        <input type="hidden" name="mode" value="Courier">
+        <select name="mode">
+            <option value="Courier">Courier</option>
+            <option value="Pickup">Pickup</option>
+        </select>
+        <%--<input type="hidden" name="mode" value="Courier">--%>
         <br>
         Delivery date:
         <input type="text" name="date" placeholder="date" required>
