@@ -55,7 +55,7 @@
             </tr>
         </c:forEach>
     </table>
-    <form method="post">
+    <form method="post" action="${homeUrl}/phoneshop-servlet-api/products/${product.id}">
         Name: <input type="text" name="name"> <br>
         Comment: <input type="text" name="comment"> <br>
         Rating:

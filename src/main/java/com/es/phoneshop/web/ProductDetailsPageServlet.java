@@ -35,8 +35,8 @@ public class ProductDetailsPageServlet extends HttpServlet {
         //Дальше идёт очень убогий код, в идеале это нужно было бы вынести в сервис. Но на момент создания этого сервлета я не создал сервис к сожалению(
         String nameUser = request.getParameter("name");
         String comment = request.getParameter("comment");
-        int rating = Integer.parseInt(request.getParameter("rating"));
         if (!(nameUser ==null || comment == null)){
+            int rating = Integer.parseInt(request.getParameter("rating"));
             double recalculatedRating = (product.getAverageRating()*product.getReviewList().size() + rating)/(product.getReviewList().size()+1);
             product.setAverageRating(recalculatedRating);
             product.getReviewList().add(new Review(comment, nameUser, rating));
