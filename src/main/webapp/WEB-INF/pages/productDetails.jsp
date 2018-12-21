@@ -55,6 +55,7 @@
             </tr>
         </c:forEach>
     </table>
+    ${product.id}
     <form method="post" action="${homeUrl}/phoneshop-servlet-api/products/${product.id}">
         Name: <input type="text" name="name"> <br>
         Comment: <input type="text" name="comment"> <br>
@@ -66,6 +67,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
+        <input type="hidden" name="id" value="${product.id}">
         <input type="submit">
     </form>
     <c:forEach var="recentProduct" items="${recentProducts}">
